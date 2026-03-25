@@ -1549,6 +1549,32 @@
       if (!code) {
         throw new Error("missing-host-code");
       }
+      if (code !== HOST_PASSCODE) {
+        throw new Error("bad-host-code");
+      }
+
+      const roomSnap = await get(dbPath("roomMeta"));
+      const currentRoom = roomSnap.val() || {};
+      if (currentRoom.hostUid && currentRoom.hostUid !== state.uid) {
+        throw new Error("host-already-exists");
+      }
+
+      await update(dbPath("roomMeta"), {
+        hostUid: state.uid,
+        hostName: state.displayName,
+        statusText: `${state.displayName} is hosting`,
+        roomOpen: currentRoom.roomOpen || false,
+        sessionId: currentRoom.sessionId || null,
+        updatedAt: now()
+      });
+
+      await update(dbPath(`lobby/${state.uid}`), {
+        role: "host",
+        admitted: true
+      });
+
+      state.isHost = true;
+    }
 
     async function leaveLobby() {
       try {
