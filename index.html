@@ -1,4 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Why We Learn - Learning Library</title>
+  <style>
+    :root{
+      --bg:#121225;
+      --panel:#1e1f3a;
+      --panel2:#2a2c53;
+      --ink:#f8f8ff;
+      --muted:#c6c6dd;
+      --accent:#ffd166;
+      --accent2:#7dd3fc;
+      --success:#86efac;
+      --danger:#fca5a5;
+      --warning:#fcd34d;
+      --grid:#2b2d57;
+      --pixel-border:#0b1022;
+      --wood:#8b5a2b;
+      --wood-dark:#5b3617;
+      --stone:#69738f;
+      --grass:#3f8f4f;
+      --city:#3f73d8;
+      --village:#2f9a4a;
+      --poster:#f7d154;
+      --paper:#fff8df;
+      --shadow:0 8px 0 rgba(0,0,0,0.28);
+      --radius:14px;
+      --hud-h:84px;
+      font-synthesis-weight:none;
+    }
 
+    *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+    html,body{height:100%; margin:0; background:var(--bg); color:var(--ink); font-family:Verdana, Tahoma, sans-serif; overflow:hidden;}
+    button,input,textarea,select{font:inherit;}
+    button{cursor:pointer; border:none;}
+    .hidden{display:none !important;}
+
+    #app{
+      position:fixed; inset:0;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0)),
+        radial-gradient(circle at top right, rgba(125,211,252,0.12), transparent 28%),
+        radial-gradient(circle at left bottom, rgba(134,239,172,0.08), transparent 24%),
+        var(--bg);
+    }
+
+    .unsupported{
+      position:fixed; inset:0; z-index:9999;
+      display:flex; align-items:center; justify-content:center; padding:24px;
+      background:rgba(7,9,20,0.98);
+    }
+    .unsupported .card{
+      width:min(760px,100%); background:var(--panel); border:4px solid #fff; border-radius:20px; padding:24px;
+      box-shadow:var(--shadow);
+    }
+
+    .screen{
+      position:absolute; inset:0;
+      display:flex; align-items:center; justify-content:center;
+      padding:18px;
+    }
+
+    .card{
+      background:linear-gradient(180deg, #30346d, #23264a);
+      border:4px solid var(--pixel-border);
+      border-radius:20px;
+      box-shadow:var(--shadow);
+      color:var(--ink);
+    }
+
+    .title-card{
+      width:min(960px,100%);
+      display:grid;
+      grid-template-columns:1.2fr 1fr;
+      gap:20px;
+      padding:20px;
+    }
+
+    .title-left, .title-right{padding:18px;}
+    .title-left{
+      background:linear-gradient(180deg,#1f2250,#1a1b34);
+      border-radius:18px;
+      border:3px solid rgba(255,255,255,0.08);
+    }
+    .title-right{
+      background:linear-gradient(180deg,#25295b,#1c1f41);
+      border-radius:18px;
+      border:3px solid rgba(255,255,255,0.08);
+    }
+
+    h1,h2,h3,p{margin:0;}
+    .hero-title{
+      font-size:clamp(28px,4vw,42px);
+      line-height:1.05;
+      margin-bottom:12px;
+      text-shadow:2px 2px 0 rgba(0,0,0,0.35);
+    }
+    .hero-sub{
+      color:var(--muted); line-height:1.5; font-size:16px; margin-bottom:16px;
+    }
+
+    .badge-row, .pill-row{
+      display:flex; flex-wrap:wrap; gap:10px; margin-top:12px;
+    }
+    .badge, .pill{
+      padding:8px 12px; border-radius:999px; font-size:13px; font-weight:700;
+      background:#11152e; border:2px solid rgba(255,255,255,0.1); color:var(--ink);
+    }
+    .badge.gold{background:#5a4315; border-color:#f7d154;}
+    .badge.sky{background:#163d54; border-color:#7dd3fc;}
+    .badge.green{background:#1c4e2f; border-color:#86efac;}
+
+    .form-grid{display:grid; gap:12px; margin-top:12px;}
+    .label{font-size:13px; color:#dce0ff; font-weight:700;}
+    .text-input, .code-input, .text-area{
+      width:100%; border:3px solid #0e1330; outline:none; padding:12px 14px; border-radius:14px;
+      background:#fff; color:#111; font-size:16px;
+    }
+    .text-area{min-height:88px; resize:vertical;}
+    .tiny{font-size:12px; color:#d2d5f3; line-height:1.4;}
+    .status-line{
+      min-height:22px; font-size:13px; font-weight:700; color:var(--accent);
+    }
+
+    .action-row{display:flex; flex-wrap:wrap; gap:10px; margin-top:16px;}
+    .btn{
+      padding:12px 16px; border-radius:14px; font-weight:700; min-height:46px;
+      border:3px solid var(--pixel-border); box-shadow:0 4px 0 rgba(0,0,0,0.25);
+      transition:transform .08s ease, filter .15s ease;
+    }
+    .btn:active{transform:translateY(2px);}
+    .btn.primary{background:var(--accent); color:#111;}
+    .btn.secondary{background:#d7ddff; color:#111;}
+    .btn.ghost{background:#25284f; color:#fff; border-color:#39407c;}
+    .btn.success{background:#86efac; color:#08140d;}
+    .btn.danger{background:#fca5a5; color:#240808;}
+    .btn.sky{background:#7dd3fc; color:#061721;}
+    .btn.small{padding:8px 10px; min-height:36px; border-radius:10px; font-size:13px;}
+    .btn:disabled{opacity:0.55; cursor:not-allowed; filter:saturate(0.7);}
+
+    .list-box{
+      background:#12142d; border:3px solid rgba(255,255,255,0.08); border-radius:16px; padding:12px;
+      max-height:230px; overflow:auto;
+    }
+    .waiting-list{display:grid; gap:8px;}
+    .wait-item{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      background:#232654; border:2px solid rgba(255,255,255,0.07); padding:10px; border-radius:14px;
+    }
+    .name-chip{display:flex; align-items:center; gap:10px; min-width:0;}
+    .mini-avatar{
+      width:18px; height:18px; border-radius:4px; border:2px solid #0a0f22; flex:0 0 auto;
+      position:relative; overflow:hidden;
+    }
+    .mini-avatar::after{
+      content:""; position:absolute; inset:auto 3px 2px 3px; height:6px; background:#fef3c7; border-radius:2px 2px 3px 3px;
+    }
+    .wait-actions{display:flex; gap:6px; flex-wrap:wrap;}
+    .muted{color:var(--muted);}
+    .success-text{color:var(--success);}
+    .danger-text{color:var(--danger);}
+    .warning-text{color:var(--warning);}
+    .mono{font-family:Consolas, Monaco, monospace;}
+
+    #gameScreen{
+      position:absolute; inset:0;
+      display:none;
+      background:linear-gradient(180deg, #171930, #111321);
+    }
+
+    #hud{
+      position:absolute; left:0; right:0; top:0; height:var(--hud-h); z-index:15;
+      display:grid; grid-template-columns:1fr auto auto; gap:10px;
+      align-items:center; padding:10px;
+      background:linear-gradient(180deg, rgba(18,18,37,0.96), rgba(18,18,37,0.82));
+      border-bottom:4px solid rgba(255,255,255,0.08);
+      backdrop-filter:blur(6px);
+    }
+    .hud-panel{
+      min-height:58px;
+      background:linear-gradient(180deg,#2d3166,#22254d);
+      border:3px solid #0b1022; border-radius:18px; box-shadow:var(--shadow);
+      display:flex; align-items:center; gap:12px; padding:10px 14px;
+    }
+    .hud-title{font-size:14px; font-weight:700;}
+    .hud-sub{font-size:12px; color:#d3d7f2;}
+    .progress-bar{
+      height:12px; background:#11142d; border-radius:999px; overflow:hidden; border:2px solid #0b1022; width:170px;
+    }
+    .progress-fill{
+      height:100%; width:0%; background:linear-gradient(90deg,#ffd166,#86efac);
+      transition:width .2s ease;
+    }
+    .toolbox-stamps{display:flex; gap:6px; flex-wrap:wrap;}
+    .stamp{
+      width:22px; height:22px; border-radius:6px; background:#11142d; border:2px solid #0b1022;
+      display:grid; place-items:center; font-size:12px;
+      opacity:.45;
+    }
+    .stamp.done{opacity:1; background:#294d2f;}
+    .occupancy{font-weight:700; font-size:13px; white-space:nowrap;}
+
+    #viewport{
+      position:absolute; left:0; right:0; top:var(--hud-h); bottom:0; overflow:hidden;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0)),
+        #1b2040;
+    }
+
+    #world{
+      position:absolute;
+      width:2200px;
+      height:1500px;
+      transform-origin:top left;
+      image-rendering:pixelated;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)),
+        repeating-linear-gradient(0deg, transparent 0 63px, rgba(255,255,255,0.03) 63px 64px),
+        repeating-linear-gradient(90deg, transparent 0 63px, rgba(255,255,255,0.03) 63px 64px),
+        #353055;
+    }
+
+    .floor-rug, .shelf, .table, .poster, .wall-panel, .plant, .bench, .desk, .stage-label, .zone-tint{
+      position:absolute;
+      pointer-events:none;
+    }
+
+    .zone-tint{
+      border:4px dashed rgba(255,255,255,0.18);
+      border-radius:24px;
+      box-shadow:inset 0 0 0 4px rgba(0,0,0,0.12);
+    }
+    .zone-tools{background:rgba(247,209,84,0.11);}
+    .zone-world{background:rgba(61,150,215,0.11);}
+    .zone-why{background:rgba(134,239,172,0.10);}
+    .zone-goal{background:rgba(252,165,165,0.10);}
+
+    .shelf{
+      background:linear-gradient(180deg,var(--wood),var(--wood-dark));
+      border:4px solid #2c1707; border-radius:14px; box-shadow:var(--shadow);
+    }
+    .shelf::before, .shelf::after{
+      content:""; position:absolute; left:8px; right:8px; height:6px; background:#e7c38b; border-radius:4px;
+    }
+    .shelf::before{top:22px;}
+    .shelf::after{bottom:22px;}
+    .book-strip{
+      position:absolute; left:12px; right:12px; top:10px; bottom:10px;
+      background:
+        repeating-linear-gradient(90deg,
+        #e06666 0 14px, #f6b26b 14px 24px, #ffd966 24px 35px, #6fa8dc 35px 47px, #93c47d 47px 58px, #8e7cc3 58px 69px);
+      opacity:0.9; border-radius:8px;
+    }
+
+    .table,.desk,.bench{
+      background:linear-gradient(180deg,#c9b28a,#9f845f);
+      border:4px solid #46331f; border-radius:18px; box-shadow:var(--shadow);
+    }
+    .table::after,.desk::after,.bench::after{
+      content:""; position:absolute; inset:8px; border:3px dashed rgba(77,48,18,.35); border-radius:12px;
+    }
+
+    .poster{
+      background:linear-gradient(180deg,#fff4a9,#ffe16e);
+      border:4px solid #5d4a08; border-radius:18px; box-shadow:var(--shadow);
+    }
+    .poster.blue{background:linear-gradient(180deg,#bce8ff,#79c3f7); border-color:#11435a;}
+    .poster.green{background:linear-gradient(180deg,#c7f6cf,#8dde9c); border-color:#16592a;}
+    .poster.red{background:linear-gradient(180deg,#ffd1d1,#ff9c9c); border-color:#6a1e1e;}
+
+    .wall-panel{
+      background:linear-gradient(180deg,#51467a,#423763);
+      border:4px solid #110f25; border-radius:16px; box-shadow:var(--shadow);
+    }
+    .wall-title{
+      position:absolute; inset:10px auto auto 12px; font-size:20px; font-weight:900;
+      text-shadow:2px 2px 0 rgba(0,0,0,0.25);
+    }
+
+    .plant{
+      width:70px; height:70px;
+      background:
+        radial-gradient(circle at 50% 38%, #6ad27a 0 28px, transparent 29px),
+        radial-gradient(circle at 32% 44%, #58bb66 0 20px, transparent 21px),
+        radial-gradient(circle at 68% 44%, #58bb66 0 20px, transparent 21px),
+        linear-gradient(180deg, transparent 0 44px, #6f4a1d 44px 56px, #4f2e11 56px 70px);
+      filter:drop-shadow(0 6px 0 rgba(0,0,0,0.25));
+    }
+
+    .floor-rug{
+      background:linear-gradient(180deg,#6d2d5a,#512049);
+      border:4px solid #19091a; border-radius:28px; box-shadow:var(--shadow);
+    }
+    .floor-rug.blue{background:linear-gradient(180deg,#265b9a,#1c4171);}
+    .floor-rug.green{background:linear-gradient(180deg,#2e8240,#215f2f);}
+    .floor-rug.gold{background:linear-gradient(180deg,#9d6f10,#6f4e0b);}
+    .floor-rug::after{
+      content:""; position:absolute; inset:12px; border:4px dashed rgba(255,255,255,0.22); border-radius:18px;
+    }
+
+    .stage-label{
+      font-size:26px; font-weight:900;
+      padding:10px 18px; border-radius:16px; color:#fff;
+      background:rgba(18,20,45,0.75); border:3px solid rgba(255,255,255,0.1);
+      text-shadow:2px 2px 0 rgba(0,0,0,0.28);
+      box-shadow:var(--shadow);
+    }
+
+    .hotspot{
+      position:absolute; border-radius:22px; cursor:pointer;
+      outline:none;
+    }
+    .hotspot::after{
+      content:""; position:absolute; inset:0; border-radius:22px;
+      border:4px dashed rgba(255,255,255,0.18);
+      transition:transform .1s ease, border-color .15s ease, background .15s ease;
+    }
+    .hotspot:hover::after, .hotspot.active::after{
+      border-color:var(--accent);
+      background:rgba(255,209,102,0.08);
+      transform:scale(1.02);
+    }
+    .hotspot-label{
+      position:absolute; left:14px; top:12px; font-size:20px; font-weight:900; text-shadow:2px 2px 0 rgba(0,0,0,0.3); pointer-events:none;
+    }
+
+    #avatarsLayer{position:absolute; inset:0; pointer-events:none;}
+    .avatar{
+      position:absolute;
+      width:34px; height:42px;
+      transform:translate(-50%, -50%);
+      pointer-events:none;
+      filter:drop-shadow(0 4px 0 rgba(0,0,0,0.35));
+    }
+    .avatar .body{
+      position:absolute; left:6px; right:6px; bottom:0; height:24px;
+      background:var(--c,#7dd3fc); border:3px solid #0b1022; border-radius:8px 8px 10px 10px;
+    }
+    .avatar .head{
+      position:absolute; left:8px; top:0; width:18px; height:18px;
+      background:#f6d2a1; border:3px solid #0b1022; border-radius:6px;
+    }
+    .avatar .hat{
+      position:absolute; left:7px; top:-3px; width:20px; height:8px;
+      background:#1f2554; border:3px solid #0b1022; border-bottom:none; border-radius:6px 6px 0 0;
+    }
+    .avatar .name{
+      position:absolute; bottom:-18px; left:50%; transform:translateX(-50%);
+      white-space:nowrap; padding:2px 6px; border-radius:999px; font-size:11px; font-weight:700;
+      background:rgba(11,16,34,.92); color:#fff; border:2px solid rgba(255,255,255,.08);
+      max-width:110px; overflow:hidden; text-overflow:ellipsis;
+    }
+    .avatar.local .body{outline:3px solid #fff;}
+    .avatar.host .hat{background:#f7d154;}
+
+    #interactionHint{
+      position:absolute; left:50%; bottom:18px; transform:translateX(-50%);
+      z-index:12;
+      min-width:320px; max-width:min(92vw,720px);
+      padding:10px 14px;
+      border-radius:18px;
+      background:rgba(18,20,45,0.92);
+      border:3px solid rgba(255,255,255,0.1);
+      box-shadow:var(--shadow);
+      display:none;
+      align-items:center; justify-content:space-between; gap:12px;
+    }
+    .hint-title{font-size:14px; font-weight:800;}
+    .hint-sub{font-size:12px; color:#d2d7f8;}
+    .keycap{
+      min-width:38px; text-align:center; padding:7px 10px; border-radius:10px;
+      background:#fff; color:#111; border:3px solid #0b1022; font-weight:900;
+      box-shadow:0 4px 0 rgba(0,0,0,0.25);
+    }
+
+    #hostPanel{
+      position:absolute; left:12px; top:96px; z-index:16;
+      width:min(400px, calc(100vw - 24px));
+      max-height:calc(100vh - 120px);
+      display:none;
+      flex-direction:column;
+    }
+    #hostPanel .panel-body{padding:12px; overflow:auto; max-height:calc(100vh - 180px);}
+    .panel-head{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      padding:10px 12px; border-bottom:3px solid rgba(255,255,255,0.08);
+    }
+    .panel-head h3{font-size:18px;}
+    .host-stat-grid{
+      display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin:12px 0;
+    }
+    .stat-box{
+      background:#161835; border:3px solid rgba(255,255,255,0.08); border-radius:14px; padding:10px;
+    }
+    .stat-box .k{font-size:11px; color:#d0d6fb; text-transform:uppercase; letter-spacing:.06em;}
+    .stat-box .v{font-size:20px; font-weight:900; margin-top:4px;}
+    .host-wait-list{display:grid; gap:8px; margin-top:8px;}
+    .mini-note{
+      font-size:12px; color:#d2d5f4; line-height:1.45;
+      background:#161835; border:2px solid rgba(255,255,255,.07); border-radius:14px; padding:10px;
+    }
+
+    #modalShade{
+      position:absolute; inset:0; z-index:40; display:none; align-items:center; justify-content:center;
+      background:rgba(6,8,18,0.78); padding:18px;
+    }
+    #modalCard{
+      width:min(980px, 100%);
+      max-height:calc(100vh - 36px);
+      overflow:auto;
+    }
+    .modal-head{
+      position:sticky; top:0; z-index:2; display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
+      padding:18px;
+      background:linear-gradient(180deg, rgba(39,43,87,0.98), rgba(31,34,68,0.96));
+      border-bottom:3px solid rgba(255,255,255,0.08);
+      border-radius:18px 18px 0 0;
+      backdrop-filter:blur(8px);
+    }
+    .modal-body{padding:18px; display:grid; gap:16px;}
+    .section-box{
+      background:#161937; border:3px solid rgba(255,255,255,0.08); border-radius:18px; padding:16px;
+    }
+    .section-title{font-size:20px; font-weight:900; margin-bottom:10px;}
+    .section-copy{color:#d3d7f5; line-height:1.55; margin-bottom:12px;}
+    .choice-grid{display:grid; gap:10px;}
+    .choice-row{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      flex-wrap:wrap;
+      background:#252955; border:2px solid rgba(255,255,255,0.08); border-radius:14px; padding:10px;
+    }
+    .choice-prompt{font-weight:700; line-height:1.45;}
+    .choice-actions{display:flex; gap:8px; flex-wrap:wrap;}
+    .answer-btn{
+      padding:8px 12px; border-radius:999px; font-size:13px; font-weight:800;
+      background:#d7ddff; color:#111; border:3px solid #0b1022;
+    }
+    .answer-btn.selected{background:var(--accent);}
+
+    .board-list{display:grid; gap:8px; max-height:240px; overflow:auto;}
+    .board-post{
+      background:#252955; border:2px solid rgba(255,255,255,0.07); border-radius:14px; padding:10px;
+    }
+    .board-meta{display:flex; justify-content:space-between; gap:10px; font-size:12px; color:#d7ddff; margin-bottom:6px;}
+    .board-text{line-height:1.45;}
+    .board-controls{margin-top:8px; display:flex; justify-content:flex-end;}
+    .board-input-row{display:grid; gap:10px;}
+    .counter{font-size:12px; color:#d2d7f4; text-align:right;}
+
+    .goal-grid{
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px;
+    }
+    .goal-card{
+      background:#252955; border:3px solid rgba(255,255,255,0.08); border-radius:18px; padding:14px;
+      display:grid; gap:8px;
+    }
+    .goal-card.selected{border-color:var(--accent); box-shadow:0 0 0 3px rgba(255,209,102,0.18) inset;}
+    .goal-title{font-size:18px; font-weight:900;}
+    .goal-plan{font-size:13px; color:#d3d8f8; line-height:1.45;}
+
+    .review-grid{
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:10px;
+    }
+    .review-card{
+      background:#202347; border:2px solid rgba(255,255,255,.08); border-radius:14px; padding:12px;
+      line-height:1.5;
+    }
+
+    #missionToast{
+      position:absolute; right:14px; bottom:18px; z-index:25;
+      width:min(420px, calc(100vw - 28px));
+      padding:14px 16px; display:none;
+      background:linear-gradient(180deg,#213f2a,#173320);
+      border:3px solid #86efac; border-radius:18px; box-shadow:var(--shadow);
+    }
+    #missionToast h3{font-size:18px; margin-bottom:6px;}
+    #missionToast p{font-size:13px; color:#ebfff0; line-height:1.45;}
+
+    #touchPad{
+      position:absolute; right:14px; bottom:92px; z-index:18;
+      display:none;
+      grid-template-columns:64px 64px 64px;
+      grid-template-rows:64px 64px 64px;
+      gap:6px;
+      user-select:none;
+    }
+    .pad-btn{
+      display:grid; place-items:center;
+      border-radius:18px; background:rgba(35,38,77,0.92); color:#fff;
+      border:3px solid rgba(255,255,255,0.08); box-shadow:var(--shadow);
+      font-size:28px; font-weight:900;
+    }
+    .pad-empty{opacity:0; pointer-events:none;}
+
+    #footerTip{
+      position:absolute; left:14px; bottom:16px; z-index:14;
+      padding:8px 12px; border-radius:14px;
+      background:rgba(18,20,45,0.88); border:2px solid rgba(255,255,255,0.08);
+      font-size:12px; color:#e4e7ff;
+    }
+
+    .divider{
+      height:1px; background:rgba(255,255,255,0.1); margin:8px 0;
+    }
+
+    @media (max-width:900px){
+      .title-card{grid-template-columns:1fr;}
+      #hud{grid-template-columns:1fr; height:auto;}
+      #viewport{top:120px;}
+      #hostPanel{top:132px;}
+      .hud-panel{min-height:52px;}
+      #interactionHint{bottom:86px;}
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div id="unsupported" class="unsupported hidden">
+      <div class="card">
+        <h2 id="unsupportedTitle" style="margin-bottom:10px;">This library works best on tablets and laptops.</h2>
+        <p id="unsupportedCopy" style="line-height:1.55; color:var(--muted); margin-bottom:14px;">
+          Please open it on a larger tablet or computer in landscape mode. Phones are intentionally not supported for this activity.
+        </p>
+        <div class="mini-note">
+          Suggested minimum size: about 900px wide in landscape.
+        </div>
+      </div>
+    </div>
+
+    <section id="joinScreen" class="screen">
+      <div class="title-card card">
+        <div class="title-left">
+          <div class="badge-row">
+            <span class="badge gold">Year 3 Global Perspectives</span>
+            <span class="badge sky">5-10 minute activity</span>
+            <span class="badge green">Shared live library</span>
+          </div>
+          <h1 class="hero-title" style="margin-top:14px;">The Learning Library<br />Build Your Toolbox</h1>
+          <p id="heroSub" class="hero-sub">
+            Explore four quick library zones to discover the difference between <strong>skills and subjects</strong>,
+            compare <strong>city and remote-village schools</strong>, explain <strong>why school matters</strong>,
+            and choose <strong>your next learning goal</strong>.
+          </p>
+          <div class="mini-note">
+            <strong>How it works:</strong> enter your name, join the lobby, wait for the host to admit you, then move with
+            <span class="mono">WASD</span> or <span class="mono">arrow keys</span>. On tablets, use the on-screen pad.
+          </div>
+          <div class="pill-row">
+            <span class="pill">4 stations</span>
+            <span class="pill">2 shared discussion boards</span>
+            <span class="pill">live avatars</span>
+            <span class="pill">host-controlled opening</span>
+          </div>
+        </div>
+
+        <div class="title-right">
+          <h2 id="joinHeading" style="font-size:24px; margin-bottom:12px;">Join the lobby</h2>
+          <div class="form-grid">
+            <label>
+              <div id="nameLabel" class="label">Your name or initials</div>
+              <input id="displayNameInput" class="text-input" maxlength="18" placeholder="e.g. Lee or AJ" />
+            </label>
+
+            <label>
+              <div id="codeLabel" class="label">Host passcode (teachers only)</div>
+              <input id="hostCodeInput" class="code-input" maxlength="40" placeholder="Leave blank if you are a student" />
+            </label>
+
+            <div id="codeHint" class="tiny">
+              The passcode gives host controls for this session. It is a classroom convenience layer, not enterprise-grade security.
+              Change it before publishing.
+            </div>
+
+            <div class="action-row">
+              <button id="joinStudentBtn" class="btn primary">Join as student</button>
+              <button id="joinHostBtn" class="btn sky">Join as host</button>
+            </div>
+
+            <div id="joinStatus" class="status-line"></div>
+
+            <div class="divider"></div>
+
+            <div id="roomStatusLabel" class="label">Room status</div>
+            <div class="list-box">
+              <div id="roomStatusBlurb" class="tiny">Connecting to Firebase...</div>
+              <div style="height:10px;"></div>
+              <div id="lobbyMiniList" class="waiting-list"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="waitingScreen" class="screen hidden">
+      <div class="card" style="width:min(980px,100%); padding:18px;">
+        <div style="display:grid; grid-template-columns:1.2fr 1fr; gap:18px;">
+          <div class="card" style="padding:16px; background:linear-gradient(180deg,#232754,#191b36); border-radius:18px;">
+            <h2 id="waitingTitle" style="font-size:30px; margin-bottom:8px;">Waiting in the library lobby</h2>
+            <p id="waitingSub" class="hero-sub" style="margin-bottom:14px;">
+              Stay here until the host opens the library and admits you into the room.
+            </p>
+            <div id="waitingHint" class="mini-note">
+              Once admitted, you will automatically enter the shared room. You do not need to refresh the page.
+            </div>
+            <div style="height:12px;"></div>
+            <div class="badge-row">
+              <span id="waitRoomOpen" class="badge">Library closed</span>
+              <span id="waitAdmission" class="badge">Not admitted yet</span>
+              <span id="waitRole" class="badge sky">Student</span>
+            </div>
+            <div style="height:14px;"></div>
+            <div class="list-box">
+              <div id="liveUpdateLabel" class="label" style="margin-bottom:8px;">Live room update</div>
+              <div id="waitMessage" class="tiny">Waiting for the host...</div>
+            </div>
+            <div class="action-row">
+              <button id="leaveLobbyBtn" class="btn danger">Leave lobby</button>
+            </div>
+          </div>
+
+          <div class="card" style="padding:16px; background:linear-gradient(180deg,#232754,#191b36); border-radius:18px;">
+            <h3 id="whoWaitingTitle" style="font-size:22px; margin-bottom:10px;">Who is waiting?</h3>
+            <div id="waitingListFull" class="host-wait-list"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="gameScreen">
+      <div id="hud">
+        <div class="hud-panel">
+          <div>
+            <div id="hudTitle" class="hud-title">The Learning Library</div>
+            <div id="hudSubtitle" class="hud-sub">Move to a glowing area and press E.</div>
+          </div>
+        </div>
+
+        <div class="hud-panel">
+          <div>
+            <div id="toolboxProgressTitle" class="hud-title">Toolbox progress</div>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
+              <div id="progressText" class="occupancy">0 / 4</div>
+            </div>
+          </div>
+          <div id="toolboxStamps" class="toolbox-stamps" aria-label="completed stations"></div>
+        </div>
+
+        <div class="hud-panel" style="justify-content:space-between;">
+          <div>
+            <div id="libraryLiveTitle" class="hud-title">Library live</div>
+            <div id="occupancyText" class="hud-sub">0 learners in room</div>
+          </div>
+          <div class="action-row" style="margin:0;">
+            <button id="openHostPanelBtn" class="btn ghost small">Host panel</button>
+            <button id="missionReviewBtn" class="btn secondary small">My review</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="hostPanel" class="card">
+        <div class="panel-head">
+          <h3 id="hostControlsTitle">Host controls</h3>
+          <button id="closeHostPanelBtn" class="btn ghost small">Close</button>
+        </div>
+        <div class="panel-body">
+          <div class="host-stat-grid">
+            <div class="stat-box"><div class="k">Room</div><div id="hostRoomState" class="v">Closed</div></div>
+            <div class="stat-box"><div class="k">Session</div><div id="hostSessionState" class="v">None</div></div>
+            <div class="stat-box"><div class="k">In lobby</div><div id="hostLobbyCount" class="v">0</div></div>
+            <div class="stat-box"><div class="k">In room</div><div id="hostPlayerCount" class="v">0</div></div>
+          </div>
+
+          <div class="action-row">
+            <button id="openLibraryBtn" class="btn success">Open library</button>
+            <button id="closeLibraryBtn" class="btn danger">Close & reset</button>
+            <button id="admitAllBtn" class="btn sky">Admit all</button>
+          </div>
+
+          <div id="hostTip" class="mini-note" style="margin-top:12px;">
+            <strong>Tip:</strong> opening the library creates a fresh session, so the boards and progress reset for this lesson.
+          </div>
+
+          <div style="height:12px;"></div>
+          <h3 id="waitingLearnersTitle" style="font-size:18px;">Waiting learners</h3>
+          <div id="hostWaitingList" class="host-wait-list"></div>
+        </div>
+      </div>
+
+      <div id="viewport">
+        <div id="world">
+          <div class="zone-tint zone-tools" style="left:120px; top:150px; width:760px; height:470px;"></div>
+          <div class="zone-tint zone-world" style="left:1020px; top:150px; width:1000px; height:470px;"></div>
+          <div class="zone-tint zone-why" style="left:360px; top:860px; width:720px; height:420px;"></div>
+          <div class="zone-tint zone-goal" style="left:1240px; top:840px; width:650px; height:450px;"></div>
+
+          <div class="floor-rug gold" style="left:150px; top:180px; width:700px; height:400px;"></div>
+          <div class="floor-rug blue" style="left:1050px; top:180px; width:940px; height:400px;"></div>
+          <div class="floor-rug green" style="left:400px; top:900px; width:640px; height:340px;"></div>
+          <div class="floor-rug" style="left:1270px; top:885px; width:590px; height:380px; background:linear-gradient(180deg,#8e3d51,#6a2c3b);"></div>
+
+          <div id="stageLabelToolbox" class="stage-label" style="left:190px; top:120px;">Toolbox Shelves</div>
+          <div id="stageLabelWorld" class="stage-label" style="left:1070px; top:120px;">World Schools Gallery</div>
+          <div id="stageLabelWhy" class="stage-label" style="left:430px; top:825px;">Why School Matters Forum</div>
+          <div id="stageLabelGoal" class="stage-label" style="left:1320px; top:805px;">My Learning Desk</div>
+
+          <div class="shelf" style="left:185px; top:260px; width:140px; height:250px;"><div class="book-strip"></div></div>
+          <div class="shelf" style="left:355px; top:250px; width:140px; height:270px;"><div class="book-strip"></div></div>
+          <div class="shelf" style="left:530px; top:270px; width:140px; height:240px;"><div class="book-strip"></div></div>
+          <div class="poster blue" style="left:700px; top:250px; width:120px; height:210px;"></div>
+          <div class="table" style="left:665px; top:470px; width:160px; height:70px;"></div>
+          <div class="plant" style="left:165px; top:520px;"></div>
+
+          <div class="poster blue" style="left:1110px; top:235px; width:210px; height:150px;"></div>
+          <div class="poster green" style="left:1350px; top:235px; width:210px; height:150px;"></div>
+          <div class="bench" style="left:1600px; top:260px; width:160px; height:60px;"></div>
+          <div class="bench" style="left:1600px; top:350px; width:160px; height:60px;"></div>
+          <div class="wall-panel" style="left:1110px; top:420px; width:820px; height:110px;"></div>
+          <div class="plant" style="left:1830px; top:515px;"></div>
+
+          <div class="wall-panel" style="left:430px; top:950px; width:560px; height:120px;"></div>
+          <div class="poster green" style="left:465px; top:1090px; width:120px; height:110px;"></div>
+          <div class="poster blue" style="left:615px; top:1090px; width:120px; height:110px;"></div>
+          <div class="poster red" style="left:765px; top:1090px; width:120px; height:110px;"></div>
+          <div class="bench" style="left:920px; top:1100px; width:90px; height:70px;"></div>
+
+          <div class="desk" style="left:1340px; top:950px; width:450px; height:250px;"></div>
+          <div class="poster" style="left:1810px; top:940px; width:90px; height:150px;"></div>
+          <div class="plant" style="left:1820px; top:1125px;"></div>
+
+          <div class="floor-rug blue" style="left:870px; top:650px; width:450px; height:120px;"></div>
+          <div class="floor-rug gold" style="left:820px; top:1280px; width:540px; height:110px;"></div>
+
+          <button class="hotspot" data-station="toolbox" style="left:160px; top:170px; width:700px; height:410px;">
+            <span id="hotspotLabelToolbox" class="hotspot-label">Sort the shelf items</span>
+          </button>
+
+          <button class="hotspot" data-station="world" style="left:1050px; top:180px; width:930px; height:360px;">
+            <span id="hotspotLabelWorld" class="hotspot-label">Compare two kinds of schools</span>
+          </button>
+
+          <button class="hotspot" data-station="why" style="left:430px; top:920px; width:600px; height:310px;">
+            <span id="hotspotLabelWhy" class="hotspot-label">Reason about why school matters</span>
+          </button>
+
+          <button class="hotspot" data-station="goal" style="left:1310px; top:900px; width:560px; height:340px;">
+            <span id="hotspotLabelGoal" class="hotspot-label">Choose your next goal</span>
+          </button>
+
+          <div id="avatarsLayer"></div>
+        </div>
+      </div>
+
+      <div id="interactionHint">
+        <div>
+          <div id="hintTitle" class="hint-title">Station nearby</div>
+          <div id="hintSub" class="hint-sub">Press E or tap here to interact.</div>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div class="keycap">E</div>
+          <button id="hintOpenBtn" class="btn primary small">Open</button>
+        </div>
+      </div>
+
+      <div id="modalShade">
+        <div id="modalCard" class="card">
+          <div class="modal-head">
+            <div>
+              <h2 id="modalTitle" style="font-size:28px; margin-bottom:6px;">Station</h2>
+              <p id="modalSubtitle" class="hud-sub" style="font-size:14px;">Complete this quick task.</p>
+            </div>
+            <button id="closeModalBtn" class="btn danger small">Close</button>
+          </div>
+          <div id="modalBody" class="modal-body"></div>
+        </div>
+      </div>
+
+      <div id="missionToast">
+        <h3 id="missionToastTitle">Mission complete for you!</h3>
+        <p id="missionToastCopy">
+          You finished all four toolbox stations. You can keep exploring while the rest of the class continues.
+        </p>
+      </div>
+
+      <div id="touchPad">
+        <div class="pad-empty"></div>
+        <div class="pad-btn" data-pad="up">▲</div>
+        <div class="pad-empty"></div>
+        <div class="pad-btn" data-pad="left">◀</div>
+        <div class="pad-btn" data-pad="down">▼</div>
+        <div class="pad-btn" data-pad="right">▶</div>
+      </div>
+
+      <div id="footerTip">WASD / arrow keys to move. Get close to a station and press E.</div>
+    </section>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+    import {
+      getAuth,
+      signInAnonymously,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
+    import {
+      getDatabase,
+      ref,
+      set,
+      update,
+      get,
+      remove,
+      push,
+      onValue,
+      off,
+      onDisconnect
+    } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
+
+    // -----------------------------------------
+    // QUICK SETUP
+    // -----------------------------------------
     const firebaseConfig = {
       apiKey: "AIzaSyBpf5wi0wShnatqUhcmPhSOdnd0NdBL65A",
       authDomain: "symmetry-and-nets.firebaseapp.com",
