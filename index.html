@@ -310,146 +310,21 @@
     }
 
     .hotspot{
-      position:absolute; border-radius:26px; cursor:pointer;
-      outline:none; overflow:hidden; padding:22px; text-align:left;
-      border:4px solid rgba(11,16,34,0.95); box-shadow:var(--shadow);
-      background:linear-gradient(180deg, rgba(255,255,255,0.92), rgba(246,244,235,0.96));
-    }
-    .hotspot::before{
-      content:""; position:absolute; inset:0;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.14), transparent 38%),
-        repeating-linear-gradient(45deg, rgba(0,0,0,0.03) 0 6px, transparent 6px 14px);
-      opacity:.65;
-      pointer-events:none;
+      position:absolute; border-radius:22px; cursor:pointer;
+      outline:none;
     }
     .hotspot::after{
       content:""; position:absolute; inset:0; border-radius:22px;
       border:4px dashed rgba(255,255,255,0.18);
-      transition:transform .12s ease, border-color .15s ease, background .15s ease, box-shadow .15s ease;
-      pointer-events:none;
+      transition:transform .1s ease, border-color .15s ease, background .15s ease;
     }
     .hotspot:hover::after, .hotspot.active::after{
       border-color:var(--accent);
       background:rgba(255,209,102,0.08);
-      transform:scale(1.015);
-      box-shadow:inset 0 0 0 3px rgba(255,209,102,0.16);
+      transform:scale(1.02);
     }
-    .hotspot.station-toolbox{background:linear-gradient(180deg,#fff7df,#f8eed0);}
-    .hotspot.station-world{background:linear-gradient(180deg,#eef7ff,#d9efff);}
-    .hotspot.station-why{background:linear-gradient(180deg,#eefbea,#d8f1d5);}
-    .hotspot.station-goal{background:linear-gradient(180deg,#fff0f2,#ffdbe2);}
     .hotspot-label{
-      position:relative; left:auto; top:auto; display:block;
-      font-size:18px; font-weight:900; text-shadow:1px 1px 0 rgba(255,255,255,0.55); pointer-events:none;
-      color:#131632; margin-bottom:10px; z-index:1;
-    }
-    .station-card{position:relative; z-index:1; display:grid; gap:12px; color:#142040;}
-    .station-top{display:flex; align-items:center; justify-content:space-between; gap:10px;}
-    .station-kicker{
-      display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px;
-      font-size:12px; font-weight:900; letter-spacing:.02em; background:rgba(19,22,50,0.08); color:#182145;
-      border:2px solid rgba(19,22,50,0.14);
-    }
-    .station-copy{
-      max-width:460px; font-size:14px; line-height:1.45; color:#20305d; font-weight:700;
-      text-wrap:pretty;
-    }
-    .station-stats, .preview-wall{
-      display:flex; gap:8px; flex-wrap:wrap;
-    }
-    .stat-pill{
-      display:inline-flex; align-items:center; gap:6px; padding:8px 10px; border-radius:999px;
-      font-size:12px; font-weight:900; background:#182145; color:#fff; border:2px solid rgba(255,255,255,0.08);
-      box-shadow:0 3px 0 rgba(0,0,0,0.18);
-    }
-    .stat-pill.soft{background:rgba(24,33,69,0.10); color:#182145; border-color:rgba(24,33,69,0.12); box-shadow:none;}
-    .stat-pill.notify{animation:pulseBadge 1.6s ease-in-out infinite;}
-    .preview-note{
-      min-width:150px; max-width:260px; padding:10px 12px; border-radius:16px; background:rgba(24,33,69,0.08);
-      border:2px solid rgba(24,33,69,0.10); font-size:12px; line-height:1.35; color:#20305d;
-    }
-    .preview-note strong{display:block; margin-bottom:4px; font-size:12px; color:#142040;}
-    .mini-icon-row{display:flex; gap:6px; flex-wrap:wrap;}
-    .mini-chip{
-      padding:5px 8px; border-radius:999px; background:rgba(255,255,255,0.72); border:2px solid rgba(24,33,69,0.10);
-      font-size:11px; font-weight:900; color:#182145;
-    }
-    .station-spark{
-      position:absolute; right:20px; top:18px; font-size:24px; opacity:.88; animation:floatSpark 2.8s ease-in-out infinite;
-      pointer-events:none;
-    }
-    .library-kiosk{
-      position:absolute; left:860px; top:645px; width:470px; height:180px; padding:18px;
-      background:linear-gradient(180deg,#25497d,#19355c);
-      border:4px solid #0d1229; border-radius:24px; box-shadow:var(--shadow);
-      color:#fff;
-    }
-    .library-kiosk::after{
-      content:""; position:absolute; inset:12px; border:4px dashed rgba(255,255,255,0.18); border-radius:18px;
-    }
-    .kiosk-inner{position:relative; z-index:1; display:grid; gap:12px;}
-    .kiosk-head{display:flex; align-items:center; justify-content:space-between; gap:10px;}
-    .kiosk-title{font-size:22px; font-weight:900; text-shadow:2px 2px 0 rgba(0,0,0,0.28);}
-    .kiosk-tip{
-      display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; font-size:12px; font-weight:900;
-      background:rgba(255,255,255,0.12); border:2px solid rgba(255,255,255,0.12);
-    }
-    .kiosk-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:10px;}
-    .kiosk-card{
-      background:rgba(10,15,34,0.35); border:2px solid rgba(255,255,255,0.08); border-radius:16px; padding:10px;
-    }
-    .kiosk-card .k{font-size:11px; text-transform:uppercase; letter-spacing:.05em; color:#d6e8ff;}
-    .kiosk-card .v{margin-top:5px; font-size:24px; font-weight:900;}
-    .sign-arrow{
-      position:absolute; padding:8px 12px; border-radius:16px; background:rgba(18,20,45,0.86); color:#fff;
-      border:3px solid rgba(255,255,255,0.10); font-size:13px; font-weight:900; box-shadow:var(--shadow);
-    }
-    .sign-arrow::after{
-      content:""; position:absolute; width:14px; height:14px; background:inherit; border-right:3px solid rgba(255,255,255,0.10); border-bottom:3px solid rgba(255,255,255,0.10);
-      transform:rotate(45deg);
-    }
-    .sign-left::after{right:-9px; top:50%; margin-top:-8px;}
-    .sign-right::after{left:-9px; top:50%; margin-top:-8px; transform:rotate(225deg);}
-    .sign-up::after{left:50%; bottom:-9px; margin-left:-8px; transform:rotate(135deg);}
-    .modal-pop{
-      animation:modalPop .18s ease;
-    }
-    #modalCard[data-theme="toolbox"] .modal-head{background:linear-gradient(180deg, rgba(120,86,9,0.98), rgba(88,64,10,0.96));}
-    #modalCard[data-theme="world"] .modal-head{background:linear-gradient(180deg, rgba(28,86,145,0.98), rgba(23,62,103,0.96));}
-    #modalCard[data-theme="why"] .modal-head{background:linear-gradient(180deg, rgba(34,102,53,0.98), rgba(24,78,40,0.96));}
-    #modalCard[data-theme="goal"] .modal-head{background:linear-gradient(180deg, rgba(132,49,76,0.98), rgba(96,36,55,0.96));}
-    #modalCard[data-theme="toolbox"] .section-box{background:linear-gradient(180deg,#2a2140,#1b1630); border-color:rgba(247,209,84,0.25);}
-    #modalCard[data-theme="world"] .section-box{background:linear-gradient(180deg,#1e2948,#17203b); border-color:rgba(125,211,252,0.22);}
-    #modalCard[data-theme="why"] .section-box{background:linear-gradient(180deg,#1d2a27,#14201c); border-color:rgba(134,239,172,0.22);}
-    #modalCard[data-theme="goal"] .section-box{background:linear-gradient(180deg,#36202a,#251720); border-color:rgba(252,165,165,0.24);}
-    .section-title{display:flex; align-items:center; gap:10px;}
-    .section-copy{font-size:15px;}
-    .choice-row{
-      transition:transform .1s ease, background .15s ease, border-color .15s ease;
-    }
-    .choice-row:hover{
-      transform:translateY(-1px);
-      border-color:rgba(255,255,255,0.16);
-      background:#2b2f61;
-    }
-    .answer-btn{transition:transform .1s ease, filter .1s ease;}
-    .answer-btn:hover{transform:translateY(-1px);}
-    .goal-card{
-      transition:transform .12s ease, border-color .15s ease, box-shadow .15s ease;
-    }
-    .goal-card:hover{transform:translateY(-2px);}
-    @keyframes pulseBadge{
-      0%,100%{transform:scale(1); box-shadow:0 0 0 0 rgba(255,209,102,0.0);}
-      50%{transform:scale(1.03); box-shadow:0 0 0 6px rgba(255,209,102,0.12);}
-    }
-    @keyframes floatSpark{
-      0%,100%{transform:translateY(0);}
-      50%{transform:translateY(-5px);}
-    }
-    @keyframes modalPop{
-      from{transform:scale(.96); opacity:.4;}
-      to{transform:scale(1); opacity:1;}
+      position:absolute; left:14px; top:12px; font-size:20px; font-weight:900; text-shadow:2px 2px 0 rgba(0,0,0,0.3); pointer-events:none;
     }
 
     #avatarsLayer{position:absolute; inset:0; pointer-events:none;}
@@ -660,6 +535,7 @@
         <div class="title-left">
           <div class="badge-row">
             <span class="badge gold">Year 3 Global Perspectives</span>
+            <button id="languageToggleBtn" class="btn ghost small" type="button" style="margin-left:auto;">Simple English</button>
             <span class="badge sky">5-10 minute activity</span>
             <span class="badge green">Shared live library</span>
           </div>
@@ -669,7 +545,7 @@
             compare <strong>city and remote-village schools</strong>, explain <strong>why school matters</strong>,
             and choose <strong>your next learning goal</strong>.
           </p>
-          <div class="mini-note">
+          <div id="howItWorksNote" class="mini-note">
             <strong>How it works:</strong> enter your name, join the lobby, wait for the host to admit you, then move with
             <span class="mono">WASD</span> or <span class="mono">arrow keys</span>. On tablets, use the on-screen pad.
           </div>
@@ -858,121 +734,21 @@
 
           <div class="floor-rug blue" style="left:870px; top:650px; width:450px; height:120px;"></div>
           <div class="floor-rug gold" style="left:820px; top:1280px; width:540px; height:110px;"></div>
-          <div id="libraryKiosk" class="library-kiosk">
-            <div class="kiosk-inner">
-              <div class="kiosk-head">
-                <div class="kiosk-title">📘 Library notice board</div>
-                <div id="kioskTip" class="kiosk-tip">Look for glowing stations</div>
-              </div>
-              <div class="kiosk-grid">
-                <div class="kiosk-card"><div id="kioskLearnersLabel" class="k">Learners</div><div id="kioskLearners" class="v">0</div></div>
-                <div class="kiosk-card"><div id="kioskIdeasLabel" class="k">Shared ideas</div><div id="kioskIdeas" class="v">0</div></div>
-                <div class="kiosk-card"><div id="kioskDoneLabel" class="k">Finished stamps</div><div id="kioskDone" class="v">0</div></div>
-              </div>
-            </div>
-          </div>
 
-          <div class="sign-arrow sign-left" style="left:730px; top:692px;">🧰 Toolbox</div>
-          <div class="sign-arrow sign-right" style="left:1335px; top:692px;">🌍 World schools</div>
-          <div class="sign-arrow sign-up" style="left:1000px; top:1240px;">🎯 Goal desk • 💡 School matters</div>
-
-          <div class="shelf" style="left:80px; top:700px; width:120px; height:220px;"><div class="book-strip"></div></div>
-          <div class="shelf" style="left:1960px; top:710px; width:120px; height:220px;"><div class="book-strip"></div></div>
-          <div class="table" style="left:150px; top:720px; width:150px; height:80px;"></div>
-          <div class="table" style="left:1820px; top:710px; width:150px; height:80px;"></div>
-          <div class="poster" style="left:315px; top:690px; width:90px; height:130px;"></div>
-          <div class="poster green" style="left:1690px; top:690px; width:90px; height:130px;"></div>
-          <div class="plant" style="left:340px; top:820px;"></div>
-          <div class="plant" style="left:1730px; top:825px;"></div>
-
-          <button class="hotspot station-toolbox" data-station="toolbox" style="left:160px; top:170px; width:700px; height:410px;">
-            <div class="station-spark">✨</div>
-            <div class="station-card">
-              <div class="station-top">
-                <div>
-                  <div class="station-kicker">🧰 Skill or Subject</div>
-                  <span id="hotspotLabelToolbox" class="hotspot-label">Sort the shelf items</span>
-                </div>
-                <div id="stationBadgeToolbox" class="stat-pill soft">New</div>
-              </div>
-              <div id="stationCopyToolbox" class="station-copy">Walk here to sort shelf items and see what classmates shared.</div>
-              <div class="station-stats">
-                <div id="toolboxDonePill" class="stat-pill soft">✅ 0 done</div>
-                <div id="toolboxPostPill" class="stat-pill soft">💬 0 ideas</div>
-                <div id="toolboxYouPill" class="stat-pill soft">👣 Visit me</div>
-              </div>
-              <div class="preview-wall">
-                <div class="preview-note"><strong id="toolboxPreviewTitle">Shelf task</strong><span id="toolboxPreviewText">Sort 6 items with two buttons only.</span></div>
-                <div class="preview-note"><strong id="toolboxPreviewTitle2">Class idea wall</strong><span id="toolboxPreviewText2">The newest class idea will appear here.</span></div>
-              </div>
-            </div>
+          <button class="hotspot" data-station="toolbox" style="left:160px; top:170px; width:700px; height:410px;">
+            <span id="hotspotLabelToolbox" class="hotspot-label">Sort the shelf items</span>
           </button>
 
-          <button class="hotspot station-world" data-station="world" style="left:1050px; top:180px; width:930px; height:360px;">
-            <div class="station-spark">🌍</div>
-            <div class="station-card">
-              <div class="station-top">
-                <div>
-                  <div class="station-kicker">🏙️ + 🌳 Compare schools</div>
-                  <span id="hotspotLabelWorld" class="hotspot-label">Compare two kinds of schools</span>
-                </div>
-                <div id="stationBadgeWorld" class="stat-pill soft">Look</div>
-              </div>
-              <div id="stationCopyWorld" class="station-copy">See what is different, what is the same, and what both schools help children do.</div>
-              <div class="station-stats">
-                <div id="worldDonePill" class="stat-pill soft">✅ 0 done</div>
-                <div id="worldPostPill" class="stat-pill soft">💬 0 ideas</div>
-                <div id="worldYouPill" class="stat-pill soft">👀 Compare</div>
-              </div>
-              <div class="preview-wall">
-                <div class="preview-note"><strong id="worldPreviewTitle">Quick clue</strong><span id="worldPreviewText">Some places look different, but both can help children learn.</span></div>
-                <div class="preview-note"><strong id="worldPreviewTitle2">Latest class note</strong><span id="worldPreviewText2">The newest shared note will appear here.</span></div>
-              </div>
-            </div>
+          <button class="hotspot" data-station="world" style="left:1050px; top:180px; width:930px; height:360px;">
+            <span id="hotspotLabelWorld" class="hotspot-label">Compare two kinds of schools</span>
           </button>
 
-          <button class="hotspot station-why" data-station="why" style="left:430px; top:920px; width:600px; height:310px;">
-            <div class="station-spark">💡</div>
-            <div class="station-card">
-              <div class="station-top">
-                <div>
-                  <div class="station-kicker">💬 Think and share</div>
-                  <span id="hotspotLabelWhy" class="hotspot-label">Reason about why school matters</span>
-                </div>
-                <div id="stationBadgeWhy" class="stat-pill soft">Think</div>
-              </div>
-              <div id="stationCopyWhy" class="station-copy">Pick the best reason, then peek at ideas other learners shared.</div>
-              <div class="station-stats">
-                <div id="whyDonePill" class="stat-pill soft">✅ 0 done</div>
-                <div id="whyPostPill" class="stat-pill soft">💬 0 ideas</div>
-                <div id="whyYouPill" class="stat-pill soft">📝 Share</div>
-              </div>
-              <div class="preview-wall">
-                <div class="preview-note"><strong id="whyPreviewTitle">Big idea</strong><span id="whyPreviewText">School is more than a building or test.</span></div>
-              </div>
-            </div>
+          <button class="hotspot" data-station="why" style="left:430px; top:920px; width:600px; height:310px;">
+            <span id="hotspotLabelWhy" class="hotspot-label">Reason about why school matters</span>
           </button>
 
-          <button class="hotspot station-goal" data-station="goal" style="left:1310px; top:900px; width:560px; height:340px;">
-            <div class="station-spark">🎯</div>
-            <div class="station-card">
-              <div class="station-top">
-                <div>
-                  <div class="station-kicker">🎯 Choose your next step</div>
-                  <span id="hotspotLabelGoal" class="hotspot-label">Choose your next goal</span>
-                </div>
-                <div id="stationBadgeGoal" class="stat-pill soft">Ready</div>
-              </div>
-              <div id="stationCopyGoal" class="station-copy">Pick one goal card or write a short goal of your own.</div>
-              <div class="station-stats">
-                <div id="goalDonePill" class="stat-pill soft">✅ 0 done</div>
-                <div id="goalPostPill" class="stat-pill soft">🎯 0 goals</div>
-                <div id="goalYouPill" class="stat-pill soft">⭐ Your turn</div>
-              </div>
-              <div class="preview-wall">
-                <div class="preview-note"><strong id="goalPreviewTitle">Goal board</strong><span id="goalPreviewText">Finished goals and visits show up here.</span></div>
-              </div>
-            </div>
+          <button class="hotspot" data-station="goal" style="left:1310px; top:900px; width:560px; height:340px;">
+            <span id="hotspotLabelGoal" class="hotspot-label">Choose your next goal</span>
           </button>
 
           <div id="avatarsLayer"></div>
@@ -1047,7 +823,7 @@
     // QUICK SETUP
     // -----------------------------------------
     const firebaseConfig = {
-      apiKey: "AIzaSyBpf5wi0wShnatqUhcmPhSOdnd0NdBL65A",
+      apiKey: "AIzaSyBXgT_LxFUar6FcfFqKJsuY2YIOjG5JLtM",
       authDomain: "symmetry-and-nets.firebaseapp.com",
       databaseURL: "https://symmetry-and-nets-default-rtdb.europe-west1.firebasedatabase.app",
       projectId: "symmetry-and-nets",
@@ -1058,7 +834,7 @@
 
     // Change this before publishing.
     // This is a classroom convenience passcode only.
-    const HOST_PASSCODE = "IWS-Library-Host-ChangeMe";
+    const HOST_PASSCODE = "LibraryT4-19";
 
     const APP_ROOT = "learningLibrary";
     const ROOM_BOUNDS = { width: 2200, height: 1500 };
@@ -1125,7 +901,7 @@
         hostAlready: "A host already controls this room.",
         joinedLobby: "Joined the lobby.",
         nowHost: "You now have host controls.",
-        joinFailed: "Could not join the lobby. Check your database rules.",
+        joinFailed: "Could not join. Refresh the page and check the Firebase rules.",
         hostLabel: "Host",
         libraryLabel: "Library",
         sessionLabel: "Session",
@@ -1229,38 +1005,7 @@
         subject: "Subject",
         city: "City school",
         village: "Remote village school",
-        both: "Both",
-        kioskTipText: "Look for glowing stations",
-        kioskLearners: "Learners",
-        kioskIdeas: "Shared ideas",
-        kioskDone: "Finished stamps",
-        zoneNew: "New",
-        zoneLook: "Look",
-        zoneThink: "Think",
-        zoneReady: "Ready",
-        zoneVisitMe: "👣 Visit me",
-        zoneCompare: "👀 Compare",
-        zoneShare: "📝 Share",
-        zoneYourTurn: "⭐ Your turn",
-        zoneDonePill: "✅ {count} done",
-        zonePostsPill: "💬 {count} ideas",
-        zoneGoalsPill: "🎯 {count} goals",
-        zoneTaskTitle: "Shelf task",
-        zoneTaskText: "Sort 6 items with two buttons only.",
-        zoneBoardTitle: "Class idea wall",
-        zoneBoardEmpty: "The newest class idea will appear here.",
-        zoneWorldClueTitle: "Quick clue",
-        zoneWorldClueText: "Some places look different, but both can help children learn.",
-        zoneLatestTitle: "Latest class note",
-        zoneWhyTitle: "Big idea",
-        zoneWhyText: "School is more than a building or test.",
-        zoneGoalTitle: "Goal board",
-        zoneGoalText: "Finished goals and visits show up here.",
-        zoneLatestEmpty: "No shared ideas yet.",
-        zoneLatestBy: "{name}: {text}",
-        zoneYouDone: "🏅 You did this",
-        zoneYouNext: "➡️ Your turn",
-        zoneYouStarted: "✨ In progress"
+        both: "Both"
       },
       simple: {}
     };
@@ -1368,38 +1113,7 @@
       missionNone: "You have not finished a station yet. Walk to a station to begin.",
       missionKeepGoing: "Keep going — you are doing well.",
       missionDone: "Great work. You finished all four stations.",
-      choose: "Pick",
-      kioskTipText: "Go to glowing stations",
-      kioskLearners: "Students",
-      kioskIdeas: "Ideas",
-      kioskDone: "Done",
-      zoneNew: "New",
-      zoneLook: "Look",
-      zoneThink: "Think",
-      zoneReady: "Ready",
-      zoneVisitMe: "👣 Visit",
-      zoneCompare: "👀 Compare",
-      zoneShare: "📝 Share",
-      zoneYourTurn: "⭐ Your turn",
-      zoneDonePill: "✅ {count} done",
-      zonePostsPill: "💬 {count} ideas",
-      zoneGoalsPill: "🎯 {count} goals",
-      zoneTaskTitle: "Shelf task",
-      zoneTaskText: "Sort 6 items with two buttons.",
-      zoneBoardTitle: "Class idea wall",
-      zoneBoardEmpty: "New class idea shows here.",
-      zoneWorldClueTitle: "Quick clue",
-      zoneWorldClueText: "The places can look different, but both help children learn.",
-      zoneLatestTitle: "Latest note",
-      zoneWhyTitle: "Big idea",
-      zoneWhyText: "School is more than a building or a test.",
-      zoneGoalTitle: "Goal board",
-      zoneGoalText: "Goals and visits show here.",
-      zoneLatestEmpty: "No shared ideas yet.",
-      zoneLatestBy: "{name}: {text}",
-      zoneYouDone: "🏅 Done",
-      zoneYouNext: "➡️ Next",
-      zoneYouStarted: "✨ Started"
+      choose: "Pick"
     };
 
     const STATIONS = {
@@ -1407,28 +1121,28 @@
         id: "toolbox",
         icon: "🧰",
         title: "Toolbox Shelves",
-        subtitle: "Tap to sort items into skills and subjects.",
+        subtitle: "Sort items into skills and subjects.",
         center: { x: 510, y: 375 }
       },
       world: {
         id: "world",
         icon: "🌍",
         title: "World Schools Gallery",
-        subtitle: "Tap to compare city and remote-village schools.",
+        subtitle: "Compare city and remote-village schools.",
         center: { x: 1515, y: 360 }
       },
       why: {
         id: "why",
         icon: "💡",
         title: "Why School Matters Forum",
-        subtitle: "Tap to choose the best reason why school matters.",
+        subtitle: "Choose the reason that explains why school matters.",
         center: { x: 730, y: 1065 }
       },
       goal: {
         id: "goal",
         icon: "🎯",
         title: "My Learning Desk",
-        subtitle: "Tap to pick a goal for your learning journey.",
+        subtitle: "Pick a goal for your own learning journey.",
         center: { x: 1590, y: 1080 }
       }
     };
@@ -1594,22 +1308,6 @@
       $("stageLabelWorld").textContent = t("stageWorld");
       $("stageLabelWhy").textContent = t("stageWhy");
       $("stageLabelGoal").textContent = t("stageGoal");
-      $("kioskTip").textContent = t("kioskTipText");
-      $("kioskLearnersLabel").textContent = t("kioskLearners");
-      $("kioskIdeasLabel").textContent = t("kioskIdeas");
-      $("kioskDoneLabel").textContent = t("kioskDone");
-      $("toolboxPreviewTitle").textContent = t("zoneTaskTitle");
-      $("toolboxPreviewText").textContent = t("zoneTaskText");
-      $("toolboxPreviewTitle2").textContent = t("zoneBoardTitle");
-      $("toolboxPreviewText2").textContent = t("zoneBoardEmpty");
-      $("worldPreviewTitle").textContent = t("zoneWorldClueTitle");
-      $("worldPreviewText").textContent = t("zoneWorldClueText");
-      $("worldPreviewTitle2").textContent = t("zoneLatestTitle");
-      $("worldPreviewText2").textContent = t("zoneLatestEmpty");
-      $("whyPreviewTitle").textContent = t("zoneWhyTitle");
-      $("whyPreviewText").textContent = t("zoneWhyText");
-      $("goalPreviewTitle").textContent = t("zoneGoalTitle");
-      $("goalPreviewText").textContent = t("zoneGoalText");
       $("hotspotLabelToolbox").textContent = t("hotspotToolbox");
       $("hotspotLabelWorld").textContent = t("hotspotWorld");
       $("hotspotLabelWhy").textContent = t("hotspotWhy");
@@ -1861,7 +1559,11 @@
         throw new Error("host-already-exists");
       }
 
-      await update(dbPath("roomMeta"), { hostUid: state.uid });
+      // Two-step write to match the Firebase rules:
+      // 1) claim roomMeta/hostUid
+      // 2) write the remaining host-controlled fields
+      await set(dbPath("roomMeta/hostUid"), state.uid);
+
       await update(dbPath("roomMeta"), {
         hostName: state.displayName,
         statusText: `${state.displayName} is hosting`,
@@ -1876,36 +1578,6 @@
       });
 
       state.isHost = true;
-    }
-      if (code !== HOST_PASSCODE) {
-        systemStatus("That host passcode is not correct.", "error");
-        return;
-      }
-
-      const roomSnap = await get(dbPath("roomMeta"));
-      const currentRoom = roomSnap.val() || {};
-      if (currentRoom.hostUid && currentRoom.hostUid !== state.uid) {
-        systemStatus("A host already controls this room.", "warn");
-        return;
-      }
-
-      await update(dbPath("roomMeta"), {
-        hostUid: state.uid,
-        hostName: state.displayName,
-        statusText: `${state.displayName} is hosting`,
-        roomOpen: currentRoom.roomOpen || false,
-        sessionId: currentRoom.sessionId || null,
-        updatedAt: now()
-      });
-
-      await update(dbPath(`lobby/${state.uid}`), {
-        role: "host",
-        admitted: true
-      });
-
-      state.isHost = true;
-      systemStatus("You now have host controls.", "success");
-      showJoinOrWait();
     }
 
     async function leaveLobby() {
@@ -2329,131 +2001,16 @@
     function renderWorld() {
       updateCamera();
       renderAvatars();
-      renderZoneDisplays();
-      renderKiosk();
       updateNearbyStation();
-    }
-
-    function mergedPlayers() {
-      const players = { ...(state.players || {}) };
-      if (state.uid) {
-        players[state.uid] = { ...(players[state.uid] || {}), ...buildPlayerPayload() };
-      }
-      return players;
-    }
-
-    function stationBoardId(stationId) {
-      return stationId === "toolbox" ? "skills" : stationId === "goal" ? "" : "world";
-    }
-
-    function latestBoardPost(boardId) {
-      const posts = Object.values(state.boards[boardId] || {}).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-      return posts[0] || null;
-    }
-
-    function stationActivity(stationId) {
-      const players = Object.values(mergedPlayers());
-      let done = 0;
-      let started = 0;
-
-      for (const p of players) {
-        if (p?.completed?.[stationId]) done++;
-        if (stationId === "toolbox" && Object.keys(p?.toolboxAnswers || {}).length) started++;
-        if (stationId === "world" && Object.keys(p?.worldAnswers || {}).length) started++;
-        if (stationId === "why" && p?.whyChoice) started++;
-        if (stationId === "goal" && (p?.goalChoice || p?.customGoal)) started++;
-      }
-
-      const boardId = stationBoardId(stationId);
-      const postCount = boardId ? Object.keys(state.boards[boardId] || {}).length : players.filter((p) => p?.goalChoice || p?.customGoal).length;
-      const latest = boardId ? latestBoardPost(boardId) : null;
-      return { done, started, postCount, latest };
-    }
-
-    function zoneYouState(stationId) {
-      if (state.localPlayer.completed[stationId]) return t("zoneYouDone");
-      if (stationId === "toolbox" && Object.keys(state.localPlayer.toolboxAnswers || {}).length) return t("zoneYouStarted");
-      if (stationId === "world" && Object.keys(state.localPlayer.worldAnswers || {}).length) return t("zoneYouStarted");
-      if (stationId === "why" && state.localPlayer.whyChoice) return t("zoneYouStarted");
-      if (stationId === "goal" && (state.localPlayer.goalChoice || state.localPlayer.customGoal)) return t("zoneYouStarted");
-      return stationId === "world" ? t("zoneCompare") : stationId === "why" ? t("zoneShare") : stationId === "goal" ? t("zoneYourTurn") : t("zoneVisitMe");
-    }
-
-    function renderZoneDisplays() {
-      const map = {
-        toolbox: {
-          badge: $("stationBadgeToolbox"),
-          done: $("toolboxDonePill"),
-          posts: $("toolboxPostPill"),
-          you: $("toolboxYouPill"),
-          preview: $("toolboxPreviewText2")
-        },
-        world: {
-          badge: $("stationBadgeWorld"),
-          done: $("worldDonePill"),
-          posts: $("worldPostPill"),
-          you: $("worldYouPill"),
-          preview: $("worldPreviewText2")
-        },
-        why: {
-          badge: $("stationBadgeWhy"),
-          done: $("whyDonePill"),
-          posts: $("whyPostPill"),
-          you: $("whyYouPill"),
-          preview: $("whyPreviewText")
-        },
-        goal: {
-          badge: $("stationBadgeGoal"),
-          done: $("goalDonePill"),
-          posts: $("goalPostPill"),
-          you: $("goalYouPill"),
-          preview: $("goalPreviewText")
-        }
-      };
-
-      for (const stationId of Object.keys(map)) {
-        const ui = map[stationId];
-        const activity = stationActivity(stationId);
-        const hasUpdates = activity.postCount > 0 || activity.done > 0;
-        ui.badge.textContent = stationId === "toolbox" ? t("zoneNew") : stationId === "world" ? t("zoneLook") : stationId === "why" ? t("zoneThink") : t("zoneReady");
-        ui.badge.className = hasUpdates ? "stat-pill notify" : "stat-pill soft";
-        ui.done.textContent = t("zoneDonePill", { count: String(activity.done) });
-        ui.posts.textContent = stationId === "goal"
-          ? t("zoneGoalsPill", { count: String(activity.postCount) })
-          : t("zonePostsPill", { count: String(activity.postCount) });
-        ui.you.textContent = zoneYouState(stationId);
-
-        if (stationId === "toolbox") {
-          ui.preview.textContent = activity.latest
-            ? t("zoneLatestBy", { name: safeName(activity.latest.authorName || "Learner"), text: String(activity.latest.text || "").slice(0, 42) })
-            : t("zoneBoardEmpty");
-        } else if (stationId === "world") {
-          ui.preview.textContent = activity.latest
-            ? t("zoneLatestBy", { name: safeName(activity.latest.authorName || "Learner"), text: String(activity.latest.text || "").slice(0, 60) })
-            : t("zoneLatestEmpty");
-        } else if (stationId === "why") {
-          ui.preview.textContent = activity.latest
-            ? t("zoneLatestBy", { name: safeName(activity.latest.authorName || "Learner"), text: String(activity.latest.text || "").slice(0, 56) })
-            : t("zoneWhyText");
-        } else if (stationId === "goal") {
-          const goalText = state.localPlayer.customGoal || (GOALS.find((g) => g.id === state.localPlayer.goalChoice)?.title || "");
-          ui.preview.textContent = goalText || t("zoneGoalText");
-        }
-      }
-    }
-
-    function renderKiosk() {
-      const players = Object.values(mergedPlayers());
-      const ideas = Object.keys(state.boards.skills || {}).length + Object.keys(state.boards.world || {}).length;
-      const finished = players.reduce((sum, p) => sum + Object.values(p?.completed || {}).filter(Boolean).length, 0);
-      $("kioskLearners").textContent = String(players.length);
-      $("kioskIdeas").textContent = String(ideas);
-      $("kioskDone").textContent = String(finished);
     }
 
     function renderAvatars() {
       const layer = $("avatarsLayer");
-      const players = mergedPlayers();
+      const players = { ...(state.players || {}) };
+      players[state.uid] = {
+        ...(players[state.uid] || {}),
+        ...buildPlayerPayload()
+      };
 
       layer.innerHTML = Object.entries(players).map(([uid, p]) => {
         const name = escapeHtml(p.name || (uid === state.uid ? state.displayName : "Learner"));
@@ -2593,15 +2150,11 @@
       requestAnimationFrame(frameLoop);
     }
 
-    function openModal(title, subtitle, html, theme = "") {
+    function openModal(title, subtitle, html) {
       state.modalOpen = true;
       $("modalTitle").textContent = title;
       $("modalSubtitle").textContent = subtitle;
       $("modalBody").innerHTML = html;
-      $("modalCard").dataset.theme = theme || "";
-      $("modalCard").classList.remove("modal-pop");
-      void $("modalCard").offsetWidth;
-      $("modalCard").classList.add("modal-pop");
       $("modalShade").style.display = "flex";
       renderBoardWidgets();
     }
@@ -2765,7 +2318,7 @@
         ${boardHtml("skills", t("toolboxBoardPrompt"))}
       `;
 
-      openModal(t("toolboxStationTitle"), t("toolboxStationSub"), html, "toolbox");
+      openModal(t("toolboxStationTitle"), t("toolboxStationSub"), html);
 
       $$("[data-toolbox]").forEach((btn) => {
         btn.onclick = () => {
@@ -2834,7 +2387,7 @@
         ${boardHtml("world", t("worldBoardPrompt"))}
       `;
 
-      openModal(t("worldStationTitle"), t("worldStationSub"), html, "world");
+      openModal(t("worldStationTitle"), t("worldStationSub"), html);
 
       $$("[data-world]").forEach((btn) => {
         btn.onclick = () => {
@@ -2890,7 +2443,7 @@
         ${boardHtml("world", t("whyBoardPrompt"))}
       `;
 
-      openModal(t("whyStationTitle"), t("whyStationSub"), html, "why");
+      openModal(t("whyStationTitle"), t("whyStationSub"), html);
 
       $$("[data-why]").forEach((btn) => {
         btn.onclick = () => {
@@ -2964,7 +2517,7 @@
         </div>
       `;
 
-      openModal(t("goalStationTitle"), t("goalStationSub"), html, "goal");
+      openModal(t("goalStationTitle"), t("goalStationSub"), html);
 
       $$("[data-goal-pick]").forEach((btn) => {
         btn.onclick = () => {
@@ -3018,7 +2571,7 @@
           </div>
         </div>
       `;
-      openModal(t("missionReviewTitle"), t("missionReviewSub"), html, "goal");
+      openModal(t("missionReviewTitle"), t("missionReviewSub"), html);
     }
 
     $$(".hotspot").forEach((el) => {
