@@ -901,7 +901,7 @@
         hostAlready: "A host already controls this room.",
         joinedLobby: "Joined the lobby.",
         nowHost: "You now have host controls.",
-        joinFailed: "Could not join the lobby. Check your database rules.",
+        joinFailed: "Could not join. Check the Firebase rules or host claim step.",
         hostLabel: "Host",
         libraryLabel: "Library",
         sessionLabel: "Session",
@@ -1048,7 +1048,7 @@
       wrongHostCode: "That passcode is not correct.",
       joinedLobby: "You joined the lobby.",
       nowHost: "Teacher controls are ready.",
-      joinFailed: "Could not join. Check the Firebase rules.",
+      joinFailed: "Could not join. Check the Firebase rules or host claim step.",
       noneYet: "No one is in the lobby yet.",
       learner: "Student",
       waiting: "Waiting",
@@ -1559,8 +1559,13 @@
         throw new Error("host-already-exists");
       }
 
+      // IMPORTANT:
+      // The current Firebase rules allow hostUid to be claimed first, and only
+      // then allow the host to write the other roomMeta fields. So this must be
+      // split into two writes instead of one combined update.
+      await set(dbPath("roomMeta/hostUid"), state.uid);
+
       await update(dbPath("roomMeta"), {
-        hostUid: state.uid,
         hostName: state.displayName,
         statusText: `${state.displayName} is hosting`,
         roomOpen: currentRoom.roomOpen || false,
