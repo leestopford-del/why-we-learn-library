@@ -535,6 +535,7 @@
         <div class="title-left">
           <div class="badge-row">
             <span class="badge gold">Year 3 Global Perspectives</span>
+            <button id="languageToggleBtn" class="btn ghost small" type="button" style="margin-left:auto;">Simple English</button>
             <span class="badge sky">5-10 minute activity</span>
             <span class="badge green">Shared live library</span>
           </div>
@@ -544,7 +545,7 @@
             compare <strong>city and remote-village schools</strong>, explain <strong>why school matters</strong>,
             and choose <strong>your next learning goal</strong>.
           </p>
-          <div class="mini-note">
+          <div id="howItWorksNote" class="mini-note">
             <strong>How it works:</strong> enter your name, join the lobby, wait for the host to admit you, then move with
             <span class="mono">WASD</span> or <span class="mono">arrow keys</span>. On tablets, use the on-screen pad.
           </div>
@@ -1548,62 +1549,6 @@
       if (!code) {
         throw new Error("missing-host-code");
       }
-      if (code !== HOST_PASSCODE) {
-        throw new Error("bad-host-code");
-      }
-
-      const roomSnap = await get(dbPath("roomMeta"));
-      const currentRoom = roomSnap.val() || {};
-      if (currentRoom.hostUid && currentRoom.hostUid !== state.uid) {
-        throw new Error("host-already-exists");
-      }
-
-      await update(dbPath("roomMeta"), { hostUid: state.uid });
-      await update(dbPath("roomMeta"), {
-        hostName: state.displayName,
-        statusText: `${state.displayName} is hosting`,
-        roomOpen: currentRoom.roomOpen || false,
-        sessionId: currentRoom.sessionId || null,
-        updatedAt: now()
-      });
-
-      await update(dbPath(`lobby/${state.uid}`), {
-        role: "host",
-        admitted: true
-      });
-
-      state.isHost = true;
-    }
-      if (code !== HOST_PASSCODE) {
-        systemStatus("That host passcode is not correct.", "error");
-        return;
-      }
-
-      const roomSnap = await get(dbPath("roomMeta"));
-      const currentRoom = roomSnap.val() || {};
-      if (currentRoom.hostUid && currentRoom.hostUid !== state.uid) {
-        systemStatus("A host already controls this room.", "warn");
-        return;
-      }
-
-      await update(dbPath("roomMeta"), {
-        hostUid: state.uid,
-        hostName: state.displayName,
-        statusText: `${state.displayName} is hosting`,
-        roomOpen: currentRoom.roomOpen || false,
-        sessionId: currentRoom.sessionId || null,
-        updatedAt: now()
-      });
-
-      await update(dbPath(`lobby/${state.uid}`), {
-        role: "host",
-        admitted: true
-      });
-
-      state.isHost = true;
-      systemStatus("You now have host controls.", "success");
-      showJoinOrWait();
-    }
 
     async function leaveLobby() {
       try {
@@ -2244,7 +2189,7 @@
               ` : ""}
             </div>
           `).join("")
-          : `<div class="mini-note">No comments yet. Be the first to add one.</div>`;
+          : `<div class="mini-note">${t("boardNone")}</div>`;
       });
 
       $$(".submit-board-btn").forEach((btn) => {
@@ -2592,7 +2537,7 @@
           </div>
           <div style="height:12px;"></div>
           <div class="mini-note">
-            <strong>${t("goalWrite").replace("Or write your own goal", "My goal").replace("Or write your own goal", "My goal")}:</strong> ${escapeHtml(goalText)}
+            <strong>My goal:</strong> ${escapeHtml(goalText)}
           </div>
         </div>
       `;
@@ -2634,6 +2579,14 @@
         await admitLearner(btn.dataset.uid);
       }
     });
+
+    window.addEventListener("error", (event) => {
+      console.error("Runtime error:", event.error || event.message || event);
+      systemStatus("A page error stopped the app. Open browser Console (F12) and share the red error line.", "error");
+    });
+
+    console.log("Firebase config project:", firebaseConfig.projectId);
+    console.log("Firebase database:", firebaseConfig.databaseURL);
 
     // Initialize
     restoreProfile();
